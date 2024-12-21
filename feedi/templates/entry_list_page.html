@@ -1,0 +1,101 @@
+{% for entry in entries %}
+<div class="card feed-entry is-radiusless {% if entry.viewed %}viewed{% endif %}" tabindex="0"
+     _="on keydown[key is 'ArrowDown'] focus() the next <.feed-entry:not(.is-hidden)/> then go to top of me then halt
+            then on keydown[key is 'ArrowUp'] focus() the previous <.feed-entry:not(.is-hidden)/> then go to middle of me then halt
+            then on focus call window.getSelection().removeAllRanges()"
+     data-id="{{entry.id}}"
+     data-view="{{ session.view | default('full')}}"
+>
+     <div class="card-content">
+         {% if entry.header %}
+         <div class="reblogged">
+             <div class="column">
+                 <small class="has-text-grey-light">{{ entry.header | safe }}</small>
+                 <br/>
+             </div>
+         </div>
+         {% endif %}
+         <div class="columns is-mobile">
+             <div class="column is-narrow avatar-column is-hidden-mobile">
+                 <figure class="image is-32x32">
+                     {% include "entry_avatar.html" %}
+                 </figure>
+             </div>
+             <div class="column">
+                 {% include "entry_header.html" %}
+
+                 <div class="columns body-container">
+                     {% if entry.media_url %}
+                     <div class="column is-one-quarter media-url-container">
+                         <figure class="image media-url is-hidden-mobile is-5by3 is-clickable" tabindex="-1"
+                                 _="on click add .is-active to the next .modal then halt">
+                             <img src="{{ entry.media_url }}" alt="article preview" onerror='this.parentNode.parentNode.style.display = "none"'>
+                         </figure>
+                         <figure class="image media-url is-hidden-tablet is-2by1 is-square is-clickable" tabindex="-1"
+                                 _="on click add .is-active to the next .modal then halt">
+                             <img src="{{ entry.media_url }}" alt="article preview" onerror='this.parentNode.parentNode.style.display = "none"'>
+                         </figure>
+                     </div>
+                     <div class="modal">
+                         <div class="modal-background"
+                              _="on click remove .is-active from the closest .modal"
+                         ></div>
+                         <div class="modal-content preview-modal"
+                              _="on keydown[key is 'Escape'] elsewhere remove .is-active from the closest .modal">
+                             <p><img src="{{ entry.media_url }}" alt="article preview"></p>
+                         </div>
+                     </div>
+                     {% endif %}
+                     <div class="column {% if entry.content_url %}is-clickable{% endif %}"
+                          {% if entry.content_url %}
+                          hx-get="{{ url_for('entry_view', id=entry.id) }}"
+                          hx-trigger="click"
+                          hx-target="body"
+                          hx-push-url="true"
+                          hx-swap="innerHTML show:top"
+                          {% endif %}>
+                         <div class="content" tabindex="-1">
+                         {% if entry.feed.type == 'mastodon' %}
+                         {{ entry.content_short | sanitize(truncate=False) | safe }}
+                         {% else %}
+                             {{ entry.content_short | sanitize | safe | default("[click to read]", true) }}
+                         {% endif %}
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div class="level is-mobile is-hidden-desktop entry-mobile-footer">
+         <a tabindex="-1" class="level-item icon  is-white is-rounded {% if entry.favorited %}toggled{% endif %}" title="Favorite"
+            hx-put="{{ url_for('entry_favorite', id=entry.id )}}"
+            _="on click toggle .toggled"
+         ><i class="fas fa-star"></i></a>
+
+        {% if entry.comments_url %}
+        <a class="icon is-white is-rounded level-item" title="Comment"
+           href="{{ entry.comments_url}}" target="_blank">
+            <i class="fas fa-comment-alt"></i>
+        </a>
+        {% endif %}
+
+        <a class="icon is-white is-rounded level-item"
+           tabindex="-1"
+           _="on click toggle .is-active on the next .dropdown then
+                  on click elsewhere remove .is-active from the next .dropdown">
+            <i class="fas fa-ellipsis-h"></i>
+        </a>
+        <div class="dropdown is-right is-up"
+             _="on intersection(intersecting) having margin '0px 0px -50% 0px'
+                    if intersecting remove .is-up else add .is-up -- show dropup up or dropdown depending position relative to middle of screen">
+            <div class="dropdown-menu" role="menu">
+                <div class="dropdown-content">{% include "entry_commands.html" %}</div>
+            </div>
+        </div>
+     </div>
+</div>
+ {% if loop.last and next_page %}
+<div hx-get="{{ request.path }}?page={{ next_page }}{% if request.args.q %}&q={{request.args.q}}{% endif %}" hx-trigger="revealed" hx-swap="outerHTML"
+    _="on htmx:beforeRequest add .viewed to .feed-entry"></div>
+ {% endif %}
+ {% endfor %}

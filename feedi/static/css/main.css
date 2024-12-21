@@ -1,0 +1,405 @@
+#entry-list .box {
+    /* this prevents weird flicker when the content is not full height
+       remove the .box to prevent the white box extending as well */
+    min-height: 100vh;
+}
+
+/* TODO similar to has-navbar-fixed-bottom-touch
+but we only want it for mobile*/
+@media screen and (max-width: 768px) {
+    body {
+        /* FIXME $navbar-height */
+        padding-bottom: 3rem!important;
+    }
+}
+
+/* reduce margins */
+.feed-entry .card-content {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.reblogged {
+    margin-bottom: 0!important;
+}
+
+.reblogged .column {
+    padding-top: .5rem!important;
+    padding-bottom: 0!important;
+}
+
+.body-container {
+    margin-bottom: 0!important;
+    font-size: 0.95em;
+}
+
+.body-container .column {
+    padding-left: 0;
+}
+.media-url-container {
+    padding-bottom: 1rem!important;
+}
+/* FIXME mobile-only, do this properly with sass */
+@media screen and (max-width: 768px) {
+    .body-container .column {
+        padding-right: 0;
+    }
+
+    .media-url-container {
+        padding-bottom: 0rem!important;
+    }
+}
+
+
+
+.feed-header .level-left {
+    /* wrap for title to prevent icons overflow */
+    flex-shrink: 1!important;
+}
+
+.column {
+    overflow-x: clip!important;
+}
+
+.feed-header {
+    margin-bottom: 0!important;
+}
+
+.feed-header .level-right, .feed-header.level {
+    align-items: unset!important;
+}
+
+@media screen and (max-width: 768px) {
+    /* used so avatar in level isnt vertical centered */
+    .mobile-top-align {
+        align-items: unset!important;
+    }
+}
+
+.avatar-column {
+    padding-right: .25rem!important;
+}
+
+.avatar-column figure {
+    margin-bottom: .5rem;
+}
+
+/* alt fallback style for when feed.icon is broken or missing  */
+.feed-avatar::before {
+    border-radius: 9999px;
+    content: attr(alt);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    color: white;
+    background-color: black;
+    white-space: pre;
+    padding-left: calc(50% - 0.4ch);
+    font-family: monospace;
+    letter-spacing: 2rem;
+}
+
+.is-64x64 .feed-avatar::before {
+    font-size: 2em;
+}
+
+/* entry effects on hover  */
+
+@media (hover: hover) {
+    .feed-entry .hover-icon:not(.toggled) {
+        visibility: hidden;
+    }
+}
+
+
+/* style for favorite icon */
+.icon.toggled .fa-star {
+    color: #ca8f04;
+}
+
+.feed-entry:hover .hover-icon {
+    visibility: visible;
+}
+
+.media-url img {
+    border-radius: .75rem;
+    object-fit: cover;
+}
+
+.preview-modal {
+    /* center preview image */
+    width: auto!important;
+}
+
+.navbar {
+    border-top: solid 1px hsl(0, 0%, 90%);
+}
+
+.navbar-brand .navbar-item {
+    padding-right: 0;
+}
+
+.navbar-item:hover, .navbar-burger:hover {
+    background-color: unset!important;
+}
+
+.card.feed-entry, .box.feed-entry  {
+    box-shadow: 0 0 0 0;
+    border: solid 1px hsl(0, 0%, 90%);
+    border-top:0;
+}
+
+.card.feed-entry:focus {
+    border: solid 1px hsl(217, 71%,  53%);
+    z-index: 1
+}
+
+.card .columns {
+    margin-top:0;
+    margin-bottom:0;
+}
+
+.feeds-sidebar {
+    position: sticky;
+    display: inline-block;
+    vertical-align: top;
+    top: 1rem;
+    bottom: 0;
+
+    /* commenting since it hides dropdown on short content pages */
+    /* overflow-x: hidden; */
+    /* overflow-y: auto; */
+
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+.feeds-sidebar::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}
+
+.feeds-sidebar .level-left.is-active, .dropdown-item.is-active {
+    font-weight: bold;
+    background: inherit!important;
+    color: inherit!important;
+}
+
+.view-settings-buttons button, .ordering-settings-buttons button {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.level-item.icon:not(.toggled) {
+    /* FIXME this should use SCSS variables */
+    color: hsl(0, 0%, 86%)
+}
+
+@media (hover: hover) {
+    .level-item.icon:not(.toggled):hover {
+        /* FIXME this should use SCSS variables */
+        color: hsl(0, 0%, 29%)
+    }
+}
+
+.level-item.icon.toggled {
+    /* FIXME this should use SCSS variables */
+    color: hsl(0, 0%, 29%)
+}
+
+.table a {
+    color: #363636
+}
+
+code{
+    white-space:pre-wrap
+    }
+
+img[src=""] {
+    display: none!important
+}
+
+.content a {
+    -webkit-touch-callout: none; /* Safari Touch */
+    -webkit-user-select: none;   /* Webkit */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Edge*/
+    user-select: none;       /* Future-proof*/
+}
+
+
+.entry-content img {
+    /* max-width: 90%; */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* TODO make this more specific, maybe only after p */
+    padding-bottom: 2rem;
+}
+
+.entry-content {
+    padding: 2rem 5rem 2rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-font-smoothing: antialiased !important;
+    text-rendering: optimizelegibility !important;
+    letter-spacing: .03em;
+}
+
+/* tweak figure and iframe to handle embedded videos */
+.entry-content figure {
+    margin-left: 0!important;
+    margin-right: 0!important;
+}
+
+.entry-content iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+/* FIXME mobile-only, do this properly with sass */
+@media screen and (max-width: 1023px) {
+    .entry-content {
+        padding: 2rem 1rem;
+    }
+}
+
+/* feeds sidebar */
+.feeds-sidebar {
+    min-width: 80%;
+}
+
+.feeds-sidebar li, .feed-sidebar .dropdown-item  {
+    font-size: 0.9rem;
+}
+
+.radio + .radio {
+    margin-left: 0!important;
+}
+
+.feeds-sidebar label {
+    padding: .5em .75em;
+    display: block
+}
+
+.feeds-sidebar input[type=checkbox], .feeds-sidebar input[type=radio] {
+    width: 1.5rem;
+}
+
+.feeds-sidebar .image {
+    display: inline-block;
+    margin-right: 0.2rem;
+}
+
+.feeds-sidebar .icon {
+    height: 1rem;
+}
+
+.navbar-menu {
+    /* invert the shadow */
+    box-shadow: 0 -8px 16px rgba(10, 10, 10, 0.1)!important;
+}
+
+.autocomplete-items .navbar-dropdown {
+    border-radius: 0;
+    box-shadow: 0 0 0 0;
+    border: 1px solid #dbdbdb;
+    padding: 0;
+    background: white;
+}
+
+@media screen and (max-width: 768px) {
+    /* patch autocomplete to dropup on mobile only */
+    .autocomplete-items .navbar-dropdown {
+        bottom: 40px;
+    }
+}
+
+
+.autocomplete-items .navbar-item {
+    padding: .375rem!important;
+    white-space: unset!important;
+}
+
+.autocomplete-items .navbar-item .icon {
+    margin-right: .1rem!important;
+}
+
+.search:focus {
+    box-shadow:0 0 0 0;
+}
+
+/* tricks to make input field fit the mobile navbar */
+.navbar-item.navbar-autocomplete {
+    flex-grow: 1;
+}
+
+.navbar-autocomplete .dropdown,
+.navbar-autocomplete .dropdown-trigger,
+.autocomplete-items .navbar-dropdown {
+    width:100%!important;
+}
+
+.autocomplete-items.is-active .navbar-dropdown {
+    position: absolute!important;
+    display: block;
+}
+
+.autocomplete-items:not(.is-active) .navbar-dropdown {
+    display: none;
+}
+
+/* tweak margins and padding to display properly on mobile
+https://github.com/jgthms/bulma/issues/1561#issuecomment-535475428 */
+.columns,
+.columns:last-child {
+    margin: 0;
+}
+
+.card-content {
+    padding-left:0!important;
+    padding-right:0!important;
+}
+
+.entry-mobile-footer {
+    padding: .35rem 0;
+}
+
+.feed-entry.viewed {
+    background-color: hsl(0, 0%, 98%);
+    .entry-title a {
+        color: #363636;
+    }
+}
+
+#pinned-entry-list .feed-entry {
+    background-color: #feefc3;
+    border: solid 1px #ddcea2;
+    border-top:0;
+}
+
+#pinned-entry-list, .feed-entry[data-view=compact]
+{
+    .body-container, .reblogged, .entry-metadata, .entry-mobile-footer,
+    .desktop-actions, .mobile-actions {
+        display: none;
+    }
+
+    .entry-excerpt-metadata {
+        display: unset!important;
+    }
+
+    .compact-actions {
+        display: flex!important;
+    }
+}
+
+.feed-entry[data-view=text] .media-url-container {
+    display: none;
+}

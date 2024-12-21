@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block sidebar_right %}{%endblock%}
+
+
+{% block content %}
+<div class="box is-radiusless feed-entry  ">
+    <div class="content">
+        <h3>Register Kindle email</h3>
+        <br/>
+
+        <p>Configure your Kindle device associated email below (the address where feedi will send articles to).
+            Then go to your <a href="https://www.amazon.com/mn/dcw/myx.html/ref=kinw_myk_redirect#/home/settings/pdoc" target="_blank">Amazon settings</a> and add  <code>{{feedi_email}}</code> to your "Approved Personal Document E-mail List".</p>
+
+            <form method="post">
+            <div class="field">
+                <label class="label">Kindle email</label>
+                <div class="control">
+                    <input class="input" name="kindle_email" type="email"  {% if current_user.kindle_email %}value="{{ current_user.kindle_email }}" {% endif %}>
+                </div>
+            </div>
+
+            <div class="level is-mobile">
+                <div class="field level-left"></div>
+                <div class="field is-grouped level-right">
+                    <p class="control"><button class="button is-primary" type="submit"
+                                               _="on click add .is-loading">Save</button></p>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+    {% endblock %}

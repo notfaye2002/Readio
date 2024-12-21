@@ -1,0 +1,29 @@
+<div class="dropdown is-active">
+    <div class="dropdown-trigger">
+        <p class="control">
+            <input class="input search" type="search" placeholder="Type or drag URL"
+                   autocomplete="off"
+                   name="q"
+                   hx-get="{{ url_for('autocomplete') }}"
+                   hx-trigger="keyup[target.value.length >= 3] changed delay:50ms, search, drop delay:50ms, paste delay:50ms"
+                   hx-target="next .autocomplete-items"
+                   hx-sync="this:replace"
+                   _="on keydown[key is 'k' and metaKey] elsewhere focus() me then halt
+                          then on keydown[key is 'ArrowDown' or (key is 'n' and ctrlKey)] focus() on the next .autocomplete-item halt
+                          then on keyup[key is 'Enter'] wait 300ms then click() on the next .autocomplete-item
+                          then on keyup[key is 'Escape'] if (next .autocomplete-items) does not match .is-active then blur() me end
+                          then on drop set my.value to event.dataTransfer.getData('text') then halt -- set explicitly so text is replaced instead of appended
+                          then on click from elsewhere set my.value to ''
+                          "/>
+        </p>
+        <div class="autocomplete-items" role="menu"
+             _="on keyup[target.value.length < 3] from .search remove .is-active
+                    then on keyup[target.value.length >= 3] from .search add .is-active
+                    then on drop from .search add .is-active
+                    then on paste from .search add .is-active
+                    then on click or click elsewhere remove .is-active
+                    then on keyup[key is 'Escape'] elsewhere remove .is-active"
+        >
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+{
+  "name": "Readio",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "img/logo2.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "share_target": {
+    "action": "/feeds/new",
+    "method": "GET",
+    "params": {
+      "url": "url"
+    }
+  }
+}
